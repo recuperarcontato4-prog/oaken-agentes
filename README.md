@@ -1,4 +1,3 @@
-[pito-presentation.html](https://github.com/user-attachments/files/26648817/pito-presentation.html)
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
