@@ -25,11 +25,14 @@ def tool_calc(expr: str) -> str:
 
 def tool_web(query: str) -> str:
     try:
-        from duckduckgo_search import DDGS
+        try:
+            from ddgs import DDGS  # type: ignore
+        except ImportError:
+            from duckduckgo_search import DDGS  # type: ignore (lib antiga)
 
         with DDGS() as ddgs:
             results = list(ddgs.text(query, max_results=3))
-        return "\n".join(f"- {r['title']}: {r['body']}" for r in results) or "sem resultados"
+        return "\n".join(f"- {r.get('title','?')}: {r.get('body','')}" for r in results) or "sem resultados"
     except Exception as e:
         return f"erro web: {e}"
 
