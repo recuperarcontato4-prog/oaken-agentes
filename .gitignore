@@ -33,6 +33,7 @@ data/processed/
 *.gguf
 mlruns/
 mlartifacts/
+mlflow.db
 .dvc/cache/
 
 # Vector stores

@@ -5,7 +5,8 @@ from pathlib import Path
 
 import chromadb
 import typer
-from chromadb.utils import embedding_functions
+
+from embedder import get_embedder
 
 CHROMA_DIR = Path(__file__).parent / "chroma"
 COLLECTION = "kb"
@@ -16,8 +17,7 @@ app = typer.Typer()
 @app.command()
 def main(diretorio: Path) -> None:
     client = chromadb.PersistentClient(path=str(CHROMA_DIR))
-    embedder = embedding_functions.SentenceTransformerEmbeddingFunction("all-MiniLM-L6-v2")
-    coll = client.get_or_create_collection(COLLECTION, embedding_function=embedder)
+    coll = client.get_or_create_collection(COLLECTION, embedding_function=get_embedder())
     n = 0
     for p in diretorio.iterdir():
         if p.suffix not in {".txt", ".md"}:

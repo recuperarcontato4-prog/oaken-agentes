@@ -29,11 +29,11 @@ class State(TypedDict):
 
 def _retrieve_node(state: State) -> dict:
     import chromadb
-    from chromadb.utils import embedding_functions
+
+    from embedder import get_embedder
 
     client = chromadb.PersistentClient(path=str(CHROMA_DIR))
-    embedder = embedding_functions.SentenceTransformerEmbeddingFunction("all-MiniLM-L6-v2")
-    coll = client.get_or_create_collection(COLLECTION, embedding_function=embedder)
+    coll = client.get_or_create_collection(COLLECTION, embedding_function=get_embedder())
     res = coll.query(query_texts=[state["question"]], n_results=4)
     ctx = "\n---\n".join(res["documents"][0]) if res["documents"] else ""
     return {"context": ctx}
