@@ -24,6 +24,19 @@ python main.py "tendências de agentes de IA em 2026"
 cat out/relatorio.md
 ```
 
+## Output de exemplo
+
+```bash
+$ python main.py "tendências de agentes de IA em 2026"
+Relatório salvo em out/relatorio.md
+```
+
+Pipeline executado: **pesquisador** chama DuckDuckGo (4 sub-tópicos), **crítico** avalia cobertura, **escritor** produz o relatório final em markdown — tudo orquestrado por um grafo LangGraph com aresta condicional (re-pesquisa se o crítico não disser OK, até max 1 iteração extra).
+
+> Sem `OPENAI_API_KEY` o relatório fica curto (output do `MockLLMClient`). Com chave real o markdown sai com 600-1500 palavras citando os snippets do DDG.
+
+> ⚠️ Nota técnica: a lib `duckduckgo-search` foi renomeada para `ddgs`. O código tenta `from ddgs import DDGS` primeiro e cai no nome antigo se necessário.
+
 ## Entregáveis para portfólio
 - Padrão multi-agente com handoff explícito
 - Loop de revisão (crítico → escritor) limitado a N iterações

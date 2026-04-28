@@ -26,11 +26,14 @@ class State(TypedDict):
 
 def _search(query: str, k: int = 5) -> str:
     try:
-        from duckduckgo_search import DDGS
+        try:
+            from ddgs import DDGS  # type: ignore
+        except ImportError:
+            from duckduckgo_search import DDGS  # type: ignore (lib antiga)
 
         with DDGS() as ddgs:
             res = list(ddgs.text(query, max_results=k))
-        return "\n".join(f"- {r['title']}: {r['body']}" for r in res)
+        return "\n".join(f"- {r.get('title','?')}: {r.get('body','')}" for r in res)
     except Exception as e:
         return f"(busca offline ou erro: {e})"
 
