@@ -1,0 +1,32 @@
+# Constraints comuns aos 21 projetos.
+#
+# Ao instalar qualquer requirements.txt, use:
+#     pip install -r projects/NN-foo/requirements.txt -c ../../constraints.txt
+#
+# Garante que dependências transitivas usem versões testadas e sem CVEs conhecidos.
+# Atualizar via Dependabot ou `pip-audit` quando rolarem patches de segurança.
+
+# LLM SDKs
+openai>=1.40.0,<2.0
+google-generativeai>=0.7.0,<1.0
+anthropic>=0.34.0,<1.0
+
+# Web framework
+fastapi>=0.110.0,<1.0
+uvicorn[standard]>=0.27.0,<1.0
+pydantic>=2.7.0,<3.0
+slowapi>=0.1.9,<1.0
+starlette>=0.36.0,<1.0
+httpx>=0.27.0,<1.0
+
+# Data / ML
+pandas>=2.2.0,<3.0
+numpy>=1.26.0,<3.0
+scikit-learn>=1.4.0,<2.0
+matplotlib>=3.8.0,<4.0
+
+# CLI / utils
+typer>=0.12.0,<1.0
+pyyaml>=6.0,<7.0
+requests>=2.32.0,<3.0
+joblib>=1.4.0,<2.0
