@@ -34,7 +34,9 @@ def apply_security(
     rate_limit_per_minute: int | None = 60,
     extra_headers: dict[str, str] | None = None,
 ) -> None:
-    """Aplica CORS + security headers + rate limit (se slowapi disponível)."""
+    """Aplica CORS + security headers + request ID + rate limit (se slowapi disponível)."""
+    import uuid
+
     from fastapi.middleware.cors import CORSMiddleware
     from starlette.requests import Request
     from starlette.responses import Response
@@ -51,9 +53,13 @@ def apply_security(
 
     @app.middleware("http")
     async def _security_headers(request: Request, call_next) -> Response:
+        # Reutiliza X-Request-Id do cliente ou gera UUID curto.
+        request_id = request.headers.get("x-request-id") or uuid.uuid4().hex[:16]
+        request.state.request_id = request_id
         response: Response = await call_next(request)
         for name, value in headers.items():
             response.headers.setdefault(name, value)
+        response.headers["X-Request-Id"] = request_id
         return response
 
     if rate_limit_per_minute:
