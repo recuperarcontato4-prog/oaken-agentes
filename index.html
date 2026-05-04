@@ -11,8 +11,10 @@
   <meta property="og:description" content="21 projetos rodando. RAG, Multi-Agentes, Fine-Tuning, MLOps, Deploy Cloud. Código aberto para revisão.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://recuperarcontato4-prog.github.io/oaken-agentes/">
+  <meta property="og:image" content="https://recuperarcontato4-prog.github.io/oaken-agentes/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://recuperarcontato4-prog.github.io/oaken-agentes/">
 
   <!-- Security headers (Pages não permite HTTP headers reais; meta CSP cobre o essencial) -->
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; script-src 'self' 'unsafe-inline'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
@@ -41,7 +43,7 @@
       --border-h: #2e4070;
       --text:     #e8edf8;
       --muted:    #7a87a0;
-      --faint:    #3a4560;
+      --faint:    #5a6580;
       --accent:   #4f8cff;
       --purple:   #a44dff;
       --green:    #22c55e;
@@ -68,6 +70,11 @@
     }
     a { color: var(--accent); text-decoration: none; }
     a:hover { text-decoration: underline; }
+    a:focus-visible, .btn:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
     img { max-width: 100%; display: block; }
 
     .container { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
@@ -647,14 +654,141 @@
 
     /* ── MISC ──────────────────────────────────────── */
     .spacer { height: 1px; background: var(--border); }
+
+    /* ── OPEN BADGE ────────────────────────────────── */
+    .open-badge {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--green);
+      background: rgba(34,197,94,.1);
+      border: 1px solid rgba(34,197,94,.3);
+      padding: 3px 10px;
+      border-radius: 999px;
+      animation: pulse-badge 2s ease-in-out infinite;
+    }
+    @keyframes pulse-badge {
+      0%, 100% { opacity: 1; }
+      50% { opacity: .6; }
+    }
+
+    /* ── FEATURED ─────────────────────────────────── */
+    .featured-section { padding: 80px 0; }
+    .featured-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 48px;
+      position: relative;
+      overflow: hidden;
+    }
+    .featured-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--grad-a);
+    }
+    .featured-badge {
+      display: inline-block;
+      background: rgba(34,197,94,.15);
+      color: var(--green);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      padding: 4px 12px;
+      border-radius: 999px;
+      margin-bottom: 16px;
+      font-family: var(--mono);
+    }
+    .featured-desc {
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.7;
+      max-width: 800px;
+      margin: 16px 0 32px;
+    }
+    .featured-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+    .feat-stat {
+      text-align: center;
+      padding: 16px;
+      background: var(--bg-2);
+      border-radius: var(--radius-s);
+      border: 1px solid var(--border);
+    }
+    .feat-num {
+      display: block;
+      font-size: 28px;
+      font-weight: 800;
+      background: var(--grad-a);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .feat-lbl {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+    .featured-tech {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+    .tech-tag {
+      font-size: 12px;
+      font-family: var(--mono);
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: var(--bg-3);
+      border: 1px solid var(--border);
+      color: var(--accent);
+    }
+    .featured-arch {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-s);
+      padding: 24px;
+      overflow-x: auto;
+    }
+    .arch-diagram code {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+      white-space: pre;
+    }
+    @media (max-width: 680px) {
+      .featured-stats { grid-template-columns: repeat(2, 1fr); }
+      .featured-card { padding: 24px; }
+    }
   </style>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Isaac",
+    "jobTitle": "AI Agent Engineer",
+    "url": "https://recuperarcontato4-prog.github.io/oaken-agentes/",
+    "sameAs": ["https://github.com/recuperarcontato4-prog"],
+    "knowsAbout": ["Artificial Intelligence", "LLM", "RAG", "Multi-Agent Systems", "MLOps", "WhatsApp Automation", "Python", "FastAPI", "LangGraph"],
+    "description": "AI Agent Engineer with 21 production-ready projects covering RAG, Multi-Agents, Fine-Tuning, MLOps, and Cloud Deploy"
+  }
+  </script>
 </head>
 <body>
 
   <!-- NAV -->
-  <nav>
+  <nav role="navigation" aria-label="Menu principal">
     <div class="container nav-inner">
       <div class="nav-logo"><span>IA</span> & Agentes</div>
+      <div class="open-badge">Aberto a propostas</div>
       <ul class="nav-links">
         <li><a href="#sobre">Sobre</a></li>
         <li><a href="#produto">Produto</a></li>
@@ -713,8 +847,55 @@
     </div>
   </header>
 
+  <!-- FEATURED PROJECT -->
+  <section class="featured-section" id="destaque">
+    <div class="container reveal">
+      <div class="section-eyebrow">Projeto em Destaque</div>
+      <div class="featured-card">
+        <div class="featured-badge">EM PRODUCAO</div>
+        <h2 class="section-title">Oaken IA — Multi-Agent WhatsApp Platform</h2>
+        <p class="featured-desc">Plataforma multi-tenant de agentes inteligentes para WhatsApp Business. 4 clientes reais atendidos 24/7. Arquitetura com tenant isolation via contextvars, Redis Streams, circuit breakers, rate limiting e LGPD compliance nativo.</p>
+        <div class="featured-stats">
+          <div class="feat-stat"><span class="feat-num">4</span><span class="feat-lbl">Tenants ativos</span></div>
+          <div class="feat-stat"><span class="feat-num">130+</span><span class="feat-lbl">Testes automatizados</span></div>
+          <div class="feat-stat"><span class="feat-num">16</span><span class="feat-lbl">Modulos de codigo</span></div>
+          <div class="feat-stat"><span class="feat-num">24/7</span><span class="feat-lbl">Uptime em producao</span></div>
+        </div>
+        <div class="featured-tech">
+          <span class="tech-tag">Python 3.12</span>
+          <span class="tech-tag">FastAPI</span>
+          <span class="tech-tag">Redis Streams</span>
+          <span class="tech-tag">SQLAlchemy</span>
+          <span class="tech-tag">OpenAI GPT-4o</span>
+          <span class="tech-tag">Whisper</span>
+          <span class="tech-tag">Evolution API</span>
+          <span class="tech-tag">systemd</span>
+          <span class="tech-tag">Multi-tenant</span>
+          <span class="tech-tag">LGPD</span>
+        </div>
+        <div class="featured-arch">
+          <pre class="arch-diagram"><code>WhatsApp ─→ Evolution API ─→ Webhook ─→ Redis Stream
+                                              │
+                              ┌────────────────┼────────────────┐
+                              ▼                ▼                ▼
+                         Trigger Agent   Attendance Agent   Scheduling Agent
+                              │                │                │
+                              ▼                ▼                ▼
+                         Tenant Router   GPT-4o + Whisper   Calendar Logic
+                              │                │                │
+                              └────────────────┼────────────────┘
+                                              ▼
+                                    Per-tenant SQLite + Audit Log</code></pre>
+        </div>
+        <a href="./pito-presentation.html" class="btn btn-primary" style="margin-top: 16px;">Ver detalhes do produto →</a>
+      </div>
+    </div>
+  </section>
+
+  <div role="main">
+
   <!-- SOBRE -->
-  <section id="sobre">
+  <section id="sobre" aria-label="Sobre">
     <div class="container">
       <div class="about-grid reveal">
         <div class="about-text">
@@ -776,7 +957,7 @@
   </section>
 
   <!-- PRODUTO EM PRODUCAO -->
-  <section class="product-section" id="produto">
+  <section class="product-section" id="produto" aria-label="Produto">
     <div class="container">
       <div class="product-banner reveal">
         <div class="product-live-badge">Em produção — clientes reais</div>
@@ -902,7 +1083,7 @@
   </section>
 
   <!-- PROJETOS -->
-  <section id="projetos">
+  <section id="projetos" aria-label="Projetos">
     <div class="container">
 
       <!-- Fundamentos -->
@@ -1221,7 +1402,7 @@
   </section>
 
   <!-- DIFERENCIAIS -->
-  <section id="diferenciais" style="background: var(--bg-2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+  <section id="diferenciais" aria-label="Diferenciais" style="background: var(--bg-2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
     <div class="container">
       <div class="section-eyebrow reveal">Por que contratar</div>
       <h2 class="section-title reveal">Não é só portfólio de curso.</h2>
@@ -1263,7 +1444,7 @@
   </section>
 
   <!-- CTA CONTATO -->
-  <section class="cta-section" id="contato">
+  <section class="cta-section" id="contato" aria-label="Contato">
     <div class="container">
       <h2>Pronto para trabalhar <span class="grad">com IA de verdade?</span></h2>
       <p>Disponível para projetos, contratação CLT/PJ ou consultoria em automação e agentes inteligentes.</p>
@@ -1271,7 +1452,7 @@
         <a href="https://github.com/recuperarcontato4-prog/oaken-agentes" class="btn btn-primary" target="_blank" rel="noopener">
           ↗ Ver projetos no GitHub
         </a>
-        <a href="https://www.linkedin.com/feed/" class="btn" target="_blank" rel="noopener">
+        <a href="https://www.linkedin.com/in/isaac-oaken/" class="btn" target="_blank" rel="noopener">
           💼 LinkedIn
         </a>
         <a href="mailto:isaacoaken@gmail.com" class="btn btn-ghost">
@@ -1280,6 +1461,8 @@
       </div>
     </div>
   </section>
+
+  </div><!-- /role=main -->
 
   <!-- FOOTER -->
   <footer>
