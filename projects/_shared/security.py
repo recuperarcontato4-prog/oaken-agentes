@@ -46,7 +46,7 @@ def apply_security(
         allow_origins=list(allow_origins),
         allow_methods=list(allow_methods),
         allow_credentials=False,
-        allow_headers=["*"],
+        allow_headers=["Content-Type", "X-API-Key", "X-Request-Id"],
     )
 
     headers = {**_DEFAULT_HEADERS, **(extra_headers or {})}
