@@ -7,9 +7,10 @@ import pandas as pd
 from sklearn.metrics import accuracy_score, f1_score, roc_auc_score
 from sklearn.model_selection import train_test_split
 
-DATA = Path("data") / "processed.csv"
-MODEL = Path("models") / "model.pkl"
-METRICS = Path("metrics") / "eval.json"
+_ROOT = Path(__file__).resolve().parent.parent
+DATA = _ROOT / "data" / "processed.csv"
+MODEL = _ROOT / "models" / "model.pkl"
+METRICS = _ROOT / "metrics" / "eval.json"
 
 df = pd.read_csv(DATA)
 X = df[["x1", "x2", "x3"]]

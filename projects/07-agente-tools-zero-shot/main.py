@@ -168,8 +168,10 @@ def main(pergunta: str, max_iter: int = DEFAULT_MAX_ITER) -> None:
         typer.echo("Aviso: max_iter limitado a 20", err=True)
         max_iter = 20
 
+    MAX_HISTORY_TURNS = 10
     client = get_default_client()
     history = pergunta
+    turns: list[str] = []
     for step in range(max_iter):
         resp = client.complete(history, system=SYSTEM).text
         typer.echo(f"--- step {step} ---\n{resp}")
@@ -191,7 +193,9 @@ def main(pergunta: str, max_iter: int = DEFAULT_MAX_ITER) -> None:
             obs = fn(action.get("input", ""))
 
         typer.echo(f"OBSERVACAO: {obs}\n")
-        history += f"\n{resp}\nOBSERVACAO: {obs}\n"
+        turns.append(f"\n{resp}\nOBSERVACAO: {obs}\n")
+        # Trunca history para manter apenas as últimas N iterações
+        history = pergunta + "".join(turns[-MAX_HISTORY_TURNS:])
 
     typer.echo("(limite de iterações atingido)")
 

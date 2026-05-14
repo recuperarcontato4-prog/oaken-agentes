@@ -1,6 +1,7 @@
 """Framework de A/B testing de prompts."""
 from __future__ import annotations
 
+import re
 import sys
 import time
 from pathlib import Path
@@ -58,7 +59,7 @@ def run_suite(suite: Suite) -> dict[str, list[CaseResult]]:
                     case_input=case.input,
                     expected=case.expected,
                     actual=actual,
-                    correct=case.expected.lower() in actual.lower(),
+                    correct=bool(re.search(r'\b' + re.escape(case.expected) + r'\b', actual, re.IGNORECASE)),
                     latency_ms=elapsed,
                     tokens=tokens,
                 )

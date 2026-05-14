@@ -1,6 +1,7 @@
 """Agente HTTP minimalista para empacotamento."""
 from __future__ import annotations
 
+import functools
 import os
 import secrets
 import sys
@@ -20,8 +21,12 @@ apply_security(
     allow_methods=["GET", "POST"],
     rate_limit_per_minute=int(os.environ.get("OAKEN_RATE_LIMIT", "60")),
 )
-_llm = get_default_client()
 _API_KEY = os.environ.get("OAKEN_API_KEY")
+
+
+@functools.lru_cache(maxsize=1)
+def _get_llm():
+    return get_default_client()
 
 
 if os.environ.get("OAKEN_ENV") == "production" and not _API_KEY:
@@ -56,11 +61,11 @@ def health() -> dict:
 
 @app.get("/ready")
 def ready() -> dict[str, str]:
-    return {"status": "ready", "provider": _llm.provider}
+    return {"status": "ready", "provider": _get_llm().provider}
 
 
 @app.post("/chat")
 def chat(p: Pergunta, x_api_key: str | None = Header(default=None)) -> dict[str, str]:
     _check_api_key(x_api_key)
-    resp = _llm.complete(p.prompt, system="Responda em português, objetivo.")
+    resp = _get_llm().complete(p.prompt, system="Responda em português, objetivo.")
     return {"reply": resp.text, "provider": resp.provider, "model": resp.model}

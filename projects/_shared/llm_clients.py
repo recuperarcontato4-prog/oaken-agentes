@@ -44,7 +44,7 @@ class OpenAIClient:
     def __init__(self, api_key: str, default_model: str = "gpt-4o-mini") -> None:
         from openai import OpenAI  # import lazy
 
-        self._client = OpenAI(api_key=api_key)
+        self._client = OpenAI(api_key=api_key, timeout=30.0)
         self._default_model = default_model
 
     def complete(self, prompt: str, *, system: str | None = None, model: str | None = None) -> LLMResponse:
@@ -75,8 +75,9 @@ class GeminiClient:
     def complete(self, prompt: str, *, system: str | None = None, model: str | None = None) -> LLMResponse:
         chosen = model or self._default_model
         m = self._genai.GenerativeModel(chosen, system_instruction=system) if system else self._genai.GenerativeModel(chosen)
-        resp = m.generate_content(prompt)
-        return LLMResponse(text=resp.text or "", model=chosen, provider=self.provider)
+        resp = m.generate_content(prompt, request_options={"timeout": 30})
+        text = resp.text if resp.candidates else ""
+        return LLMResponse(text=text or "", model=chosen, provider=self.provider)
 
 
 class AnthropicClient:

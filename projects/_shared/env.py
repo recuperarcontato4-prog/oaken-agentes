@@ -30,8 +30,14 @@ def load_env(start: Path | None = None) -> None:
             break
 
 
+_loaded = False
+
+
 def get_env(key: str, default: str | None = None) -> str | None:
-    load_env()
+    global _loaded
+    if not _loaded:
+        load_env()
+        _loaded = True
     return os.environ.get(key, default)
 
 

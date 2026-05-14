@@ -43,7 +43,7 @@ apply_security(
 def _require_api_key(x_api_key: str | None = Header(default=None)) -> None:
     """Exige API key nos endpoints sensíveis (LGPD_API_KEY)."""
     if _API_KEY is None:
-        return
+        raise HTTPException(503, "auth nao configurada")
     if not x_api_key or not sec_mod.compare_digest(x_api_key, _API_KEY):
         raise HTTPException(401, "unauthorized")
 
@@ -74,8 +74,9 @@ def _last_hash() -> str:
 
 def _append(event: dict) -> str:
     prev = _last_hash()
-    payload = {**event, "prev": prev, "ts": datetime.now(timezone.utc).isoformat()}
+    payload = {**event, "ts": datetime.now(timezone.utc).isoformat()}
     h = hashlib.sha256((prev + json.dumps(payload, sort_keys=True)).encode()).hexdigest()
+    payload["prev"] = prev
     payload["hash"] = h
     with LOG.open("a", encoding="utf-8") as f:
         f.write(json.dumps(payload, ensure_ascii=False) + "\n")

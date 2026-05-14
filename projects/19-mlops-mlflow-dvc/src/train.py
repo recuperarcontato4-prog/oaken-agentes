@@ -10,9 +10,10 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import roc_auc_score
 from sklearn.model_selection import train_test_split
 
-DATA = Path("data") / "processed.csv"
-MODELS = Path("models")
-METRICS = Path("metrics")
+_ROOT = Path(__file__).resolve().parent.parent
+DATA = _ROOT / "data" / "processed.csv"
+MODELS = _ROOT / "models"
+METRICS = _ROOT / "metrics"
 MODELS.mkdir(exist_ok=True)
 METRICS.mkdir(exist_ok=True)
 

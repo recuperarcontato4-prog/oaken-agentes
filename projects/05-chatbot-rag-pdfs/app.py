@@ -68,11 +68,30 @@ def get_collection():
 
 
 def chunk_text(text: str, size: int = 800, overlap: int = 100) -> list[str]:
+    """Divide texto em chunks respeitando limites de palavras (quebra em \\n)."""
     chunks: list[str] = []
-    i = 0
-    while i < len(text):
-        chunks.append(text[i : i + size])
-        i += size - overlap
+    lines = text.split("\n")
+    current: list[str] = []
+    current_len = 0
+    for line in lines:
+        line_len = len(line) + 1  # +1 para o \n
+        if current_len + line_len > size and current:
+            chunk = "\n".join(current)
+            chunks.append(chunk)
+            # overlap: mantém últimas linhas até atingir overlap chars
+            overlap_lines: list[str] = []
+            overlap_len = 0
+            for prev_line in reversed(current):
+                if overlap_len + len(prev_line) + 1 > overlap:
+                    break
+                overlap_lines.insert(0, prev_line)
+                overlap_len += len(prev_line) + 1
+            current = overlap_lines
+            current_len = overlap_len
+        current.append(line)
+        current_len += line_len
+    if current:
+        chunks.append("\n".join(current))
     return chunks
 
 

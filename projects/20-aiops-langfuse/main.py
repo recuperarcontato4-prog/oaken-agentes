@@ -56,7 +56,7 @@ def get_langfuse():
     try:
         from langfuse import Langfuse
 
-        return Langfuse(public_key=pub, secret_key=sec, host=get_env("LANGFUSE_HOST", "https://cloud.langfuse.com")), "langfuse"
+        return Langfuse(public_key=pub, secret_key=sec, host=get_env("LANGFUSE_HOST") or "https://cloud.langfuse.com"), "langfuse"
     except Exception:
         return LocalSink(), "local"
 

@@ -15,10 +15,11 @@ def main(prompt: str, base: str = "TinyLlama/TinyLlama-1.1B-Chat-v1.0", max_new:
         raise typer.BadParameter("Treine antes (python train.py).")
     import torch
     from peft import PeftModel
-    from transformers import AutoModelForCausalLM, AutoTokenizer
+    from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 
+    bnb_config = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_compute_dtype=torch.float16)
     tok = AutoTokenizer.from_pretrained(str(ADAPTER))
-    model = AutoModelForCausalLM.from_pretrained(base, torch_dtype=torch.float16, device_map="auto")
+    model = AutoModelForCausalLM.from_pretrained(base, quantization_config=bnb_config, device_map="auto")
     model = PeftModel.from_pretrained(model, str(ADAPTER))
     text = f"### Instrução:\n{prompt}\n\n### Resposta:\n"
     inputs = tok(text, return_tensors="pt").to(model.device)

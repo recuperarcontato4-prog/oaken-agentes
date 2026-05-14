@@ -12,7 +12,7 @@ PII_PATTERNS = {
     "cpf": re.compile(r"\b\d{3}\.?\d{3}\.?\d{3}-?\d{2}\b"),
     "email": re.compile(r"\b[\w.+-]+@[\w-]+\.[\w.-]+\b"),
     "phone": re.compile(r"\b(?:\+?55\s?)?\(?\d{2}\)?\s?\d{4,5}-?\d{4}\b"),
-    "credit_card": re.compile(r"\b(?:\d[ -]*?){13,16}\b"),
+    "credit_card": re.compile(r"\b(?:\d{4}[- ]?){3}\d{1,4}\b"),
     "passport": re.compile(r"\b[A-Z]{1,2}\d{6,9}\b"),
     "cnpj": re.compile(r"\b\d{2}\.?\d{3}\.?\d{3}/?\d{4}-?\d{2}\b"),
     "rg": re.compile(r"\b\d{1,2}\.?\d{3}\.?\d{3}-?[\dXx]\b"),
@@ -58,7 +58,7 @@ def audit(path: Path, payload: dict) -> None:
 
 def safe_call(client, prompt: str, audit_path: Path = Path("audit.log")) -> GuardrailResult:
     safe_prompt, redactions = redact(prompt)
-    prompt_hash = hashlib.sha256(prompt.encode("utf-8")).hexdigest()[:16]
+    prompt_hash = hashlib.sha256(safe_prompt.encode("utf-8")).hexdigest()[:16]
     blocked, reason = check_toxicity(prompt)
     if blocked:
         audit(audit_path, {"event": "blocked_input", "hash": prompt_hash, "reason": reason})

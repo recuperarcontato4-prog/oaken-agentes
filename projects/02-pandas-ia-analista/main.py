@@ -56,11 +56,12 @@ def main(
     plots = _save_plots(df, out)
 
     client = get_default_client()
+    summary_str = str(summary)[:3000]
     prompt = (
         "Você é um analista de dados sênior. Com base no resumo abaixo, "
         "produza um relatório em markdown com:\n"
         "1. Visão geral do dataset\n2. 5 insights numéricos\n3. Riscos de qualidade\n4. Próximos passos\n\n"
-        f"Resumo:\n{summary}"
+        f"Resumo:\n{summary_str}"
     )
     relatorio = client.complete(prompt, system="Resposta em português, objetiva.").text
 

@@ -39,6 +39,7 @@ def run_in_docker(code: str, timeout: int = 10) -> tuple[bool, str]:
     definida, faz fallback para subprocess local (apenas pra demo). Caso
     contrário levanta ``SandboxRefusedError``.
     """
+    host_path: Path | None = None
     try:
         import docker
 
@@ -58,13 +59,13 @@ def run_in_docker(code: str, timeout: int = 10) -> tuple[bool, str]:
                 stderr=True,
                 stdout=True,
                 remove=True,
+                stop_signal="SIGKILL",
+                timeout=timeout,
             )
             text = log.decode("utf-8", "replace")
             return True, text
         except Exception as e:
             return False, str(e)[:4000]
-        finally:
-            host_path.unlink(missing_ok=True)
     except Exception:
         if os.environ.get("OAKEN_ALLOW_LOCAL_EXEC") != "1":
             raise SandboxRefusedError(
@@ -74,3 +75,6 @@ def run_in_docker(code: str, timeout: int = 10) -> tuple[bool, str]:
                 "descartável): export OAKEN_ALLOW_LOCAL_EXEC=1"
             )
         return _run_subprocess(code, timeout)
+    finally:
+        if host_path is not None:
+            host_path.unlink(missing_ok=True)

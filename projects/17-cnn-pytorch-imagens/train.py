@@ -101,7 +101,7 @@ def main(
         acc = correct / total
         history.append({"epoch": ep, "loss": run_loss / len(train_loader), "val_acc": acc})
         typer.echo(f"epoch {ep} loss={history[-1]['loss']:.4f} val_acc={acc:.3f}")
-    torch.jit.script(model.cpu()).save(str(OUT / "model.pt"))
+    torch.jit.trace(model.cpu(), torch.randn(1, 3, 64, 64)).save(str(OUT / "model.pt"))
     (OUT / "classes.json").write_text(json.dumps(classes))
     (OUT / "history.json").write_text(json.dumps(history, indent=2))
     typer.echo(f"Modelo salvo em {OUT / 'model.pt'}")

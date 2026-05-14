@@ -22,8 +22,12 @@ def main() -> None:
         print(f"Nenhuma versão atinge AUC >= {MIN_AUC}.")
         return
     v, auc = best
-    client.transition_model_version_stage(name=MODEL_NAME, version=v.version, stage="Production", archive_existing_versions=True)
-    print(f"Promovida versão {v.version} para Production (auc={auc:.3f})")
+    try:
+        client.set_registered_model_alias(MODEL_NAME, "production", v.version)
+        print(f"Promovida versão {v.version} para Production via alias (auc={auc:.3f})")
+    except (AttributeError, Exception):
+        client.transition_model_version_stage(name=MODEL_NAME, version=v.version, stage="Production", archive_existing_versions=True)
+        print(f"Promovida versão {v.version} para Production via stage (auc={auc:.3f})")
 
 
 if __name__ == "__main__":

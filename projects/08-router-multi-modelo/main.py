@@ -49,6 +49,7 @@ def estimate_cost(spec: ModelSpec, prompt: str) -> float:
 def choose(policy: Policy, task: str, max_cost: float, prompt: str) -> ModelSpec:
     candidates = [m for m in policy.models if estimate_cost(m, prompt) <= max_cost]
     if not candidates:
+        print("AVISO: budget excedido, usando modelo mais barato")
         candidates = sorted(policy.models, key=lambda m: estimate_cost(m, prompt))[:1]
     strategy = policy.routing.get(task, "cheapest_within_budget")
     if strategy == "highest_quality_within_budget":
@@ -87,6 +88,9 @@ def main(
     except Exception as e:
         typer.echo(f"[router] falhou ({e}), fallback para mock")
         resp = MockLLMClient().complete(prompt)
+    is_mock = isinstance(client, MockLLMClient)
+    if is_mock:
+        typer.echo("\n⚠ [mock] resposta gerada pelo MockLLMClient (sem LLM real)")
     typer.echo("\n" + resp.text)
 
 

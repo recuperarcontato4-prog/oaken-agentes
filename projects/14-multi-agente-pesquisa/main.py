@@ -80,13 +80,13 @@ def writer(state: State) -> dict:
 
 
 def should_iterate(state: State) -> str:
-    if state["critique"].strip().upper().startswith("OK") or state["iterations"] >= 3:
+    if state["critique"].strip().upper().startswith("OK") or state.get("iterations", 0) >= 3:
         return "writer"
     return "researcher"
 
 
 def increment(state: State) -> dict:
-    return {"iterations": state["iterations"] + 1}
+    return {"iterations": state.get("iterations", 0) + 1}
 
 
 def build_graph():

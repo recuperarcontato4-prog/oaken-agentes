@@ -4,7 +4,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-OUT = Path("data") / "processed.csv"
+OUT = Path(__file__).resolve().parent.parent / "data" / "processed.csv"
 OUT.parent.mkdir(exist_ok=True)
 
 rng = np.random.default_rng(42)

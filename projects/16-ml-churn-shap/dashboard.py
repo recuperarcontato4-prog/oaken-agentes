@@ -13,12 +13,23 @@ OUT = Path(__file__).parent / "out"
 st.set_page_config(page_title="Churn + SHAP", layout="wide")
 st.title("📉 Churn — Interpretabilidade com SHAP")
 
+PROJECT_DIR = Path(__file__).resolve().parent
+
+
+def _safe_path(p: Path) -> Path:
+    """Valida que o path resolve dentro do diretório do projeto."""
+    resolved = p.resolve()
+    if not str(resolved).startswith(str(PROJECT_DIR)):
+        raise ValueError(f"Path fora do diretório do projeto: {resolved}")
+    return resolved
+
+
 if not (OUT / "modelo.pkl").exists():
     st.warning("Rode `python train.py` primeiro para gerar o modelo.")
     st.stop()
 
-model = joblib.load(OUT / "modelo.pkl")
-df = pd.read_csv(OUT / "dataset.csv")
+model = joblib.load(_safe_path(OUT / "modelo.pkl"))
+df = pd.read_csv(_safe_path(OUT / "dataset.csv"))
 X = df.drop(columns=["churn"])
 
 explainer = shap.TreeExplainer(model)
