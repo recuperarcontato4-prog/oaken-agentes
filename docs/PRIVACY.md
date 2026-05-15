@@ -5,9 +5,9 @@
 
 ## 1. Quem é o controlador
 
-**Responsável:** recuperarcontato4-prog (autor do portfolio)
+**Responsável:** isaac-carvalho (autor do portfolio)
 **Contato DPO:** _a definir antes de uso comercial_
-**Repositório:** https://github.com/recuperarcontato4-prog/oaken-agentes
+**Repositório:** https://github.com/isaac-carvalho/oaken-agentes
 
 Este portfolio reúne 21 projetos práticos de IA e agentes. **Não coleta dados pessoais de visitantes do site estático** (`index.html`). As coletas só ocorrem se você executar localmente os projetos com APIs LLM ou usar o `lgpd-compliance-toolkit` (projeto 12).
 

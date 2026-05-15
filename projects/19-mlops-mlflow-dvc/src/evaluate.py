@@ -1,6 +1,9 @@
 """Avaliação holdout final."""
 import json
+import logging
 from pathlib import Path
+
+log = logging.getLogger(__name__)
 
 import joblib
 import pandas as pd
@@ -27,4 +30,4 @@ metrics = {
     "f1": float(f1_score(y_te, pred)),
 }
 METRICS.write_text(json.dumps(metrics, indent=2))
-print(metrics)
+log.info("evaluation_complete", extra=metrics)

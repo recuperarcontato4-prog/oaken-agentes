@@ -6,8 +6,11 @@ arbitrária). Para legado pickle/joblib, defina ``OAKEN_USE_PICKLE=1``.
 from __future__ import annotations
 
 import json
+import logging
 import os
 from pathlib import Path
+
+log = logging.getLogger(__name__)
 
 import numpy as np
 import pandas as pd
@@ -71,20 +74,19 @@ def main() -> None:
         from skops.io import dump as skops_dump
 
         skops_dump(model, OUT / "modelo.skops")
-        print(f"Modelo salvo em formato SKOPS (seguro): {OUT / 'modelo.skops'}")
+        log.info("model_saved_skops", extra={"path": str(OUT / "modelo.skops")})
     except ImportError:
         # Fallback pickle (joblib). Avisar sobre risco.
         import joblib
 
         joblib.dump(model, OUT / "modelo.pkl")
-        print(
-            f"⚠️  modelo salvo em pickle ({OUT / 'modelo.pkl'}). "
-            "NÃO carregue pickles de fontes não-confiáveis (RCE). "
-            "Instale `skops` para usar formato seguro."
-        )
+        log.warning("model_saved_pickle", extra={
+            "path": str(OUT / "modelo.pkl"),
+            "hint": "instale skops para formato seguro",
+        })
 
     df.to_csv(OUT / "dataset.csv", index=False)
-    print(f"AUC={metrics['auc']:.3f}  artefatos em {OUT}/")
+    log.info("training_complete", extra={"auc": f"{metrics['auc']:.3f}", "output_dir": str(OUT)})
 
 
 if __name__ == "__main__":

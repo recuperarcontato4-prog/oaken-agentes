@@ -1,5 +1,8 @@
 """Gera dataset sintético reproduzível."""
+import logging
 from pathlib import Path
+
+log = logging.getLogger(__name__)
 
 import numpy as np
 import pandas as pd
@@ -18,4 +21,4 @@ df = pd.DataFrame({
 noise = rng.normal(0, 0.5, n)
 df["y"] = ((0.7 * df["x1"] - 0.3 * df["x2"] + 0.5 * df["x3"] + noise) > 0).astype(int)
 df.to_csv(OUT, index=False)
-print(f"Dataset salvo em {OUT} ({len(df)} linhas)")
+log.info("dataset_saved", extra={"path": str(OUT), "rows": len(df)})

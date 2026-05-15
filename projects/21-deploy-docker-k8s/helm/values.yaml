@@ -1,5 +1,5 @@
 image:
-  repository: ghcr.io/recuperarcontato4-prog/oaken-agent
+  repository: ghcr.io/isaac-carvalho/oaken-agent
   tag: latest
   pullPolicy: IfNotPresent
 

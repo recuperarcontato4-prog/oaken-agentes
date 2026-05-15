@@ -1,8 +1,11 @@
 """Roteador multi-modelo com política declarativa."""
 from __future__ import annotations
 
+import logging
 import sys
 from pathlib import Path
+
+log = logging.getLogger(__name__)
 
 import typer
 import yaml
@@ -49,7 +52,7 @@ def estimate_cost(spec: ModelSpec, prompt: str) -> float:
 def choose(policy: Policy, task: str, max_cost: float, prompt: str) -> ModelSpec:
     candidates = [m for m in policy.models if estimate_cost(m, prompt) <= max_cost]
     if not candidates:
-        print("AVISO: budget excedido, usando modelo mais barato")
+        log.warning("budget_exceeded, falling back to cheapest model")
         candidates = sorted(policy.models, key=lambda m: estimate_cost(m, prompt))[:1]
     strategy = policy.routing.get(task, "cheapest_within_budget")
     if strategy == "highest_quality_within_budget":

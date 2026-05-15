@@ -1,6 +1,9 @@
 """Treina + registra no MLflow."""
 import json
+import logging
 from pathlib import Path
+
+log = logging.getLogger(__name__)
 
 import joblib
 import mlflow
@@ -38,4 +41,4 @@ with mlflow.start_run() as run:
     joblib.dump(model, MODELS / "model.pkl")
     (METRICS / "train.json").write_text(json.dumps({"auc_train": auc_tr, "auc_test": auc_te, "run_id": run.info.run_id}, indent=2))
 
-print(f"AUC train={auc_tr:.3f}  test={auc_te:.3f}")
+log.info("training_complete", extra={"auc_train": f"{auc_tr:.3f}", "auc_test": f"{auc_te:.3f}"})
